@@ -6,8 +6,8 @@ defmodule RamlParser.ErrorsTest do
   use ExSpec, async: true
   import RamlParser
 
-  describe 'Errors' do
-    it 'should be at right line/column when new document content started without special marker right after end marker' do
+  describe "Errors" do
+    it "should be at right line/column when new document content started without special marker right after end marker" do
       str = """
       #%RAML 0.8
       ---
@@ -21,7 +21,7 @@ defmodule RamlParser.ErrorsTest do
       assert error.column == 1
     end
 
-    it 'should error with non-printable characters and render index correctly' do
+    it "should error with non-printable characters and render index correctly" do
       str = """
       #%RAML 0.8
       *Note:* You may provide an optional *scope* parameter to request additional permissions outside of the "basic" permissions scope. [Learn more about scope](http://instagram.com/developer/authentication/#scop
@@ -32,7 +32,7 @@ defmodule RamlParser.ErrorsTest do
       assert error.column == 111
     end
 
-    it 'should render error messages with the correct index' do
+    it "should render error messages with the correct index" do
       str = """
       #%RAML 0.8
       title: {]

@@ -2,13 +2,12 @@ defmodule RamlParser.IncludeResolutionTest do
   @moduledoc """
   https://github.com/raml-org/raml-js-parser/blob/master/test/specs/includeResolution.js
   """
-  'use strict';
-
+  
   use ExSpec, async: true
   import RamlParser
 
-  describe 'Include resolution injection' do
-    it 'should call injected method' do
+  describe "Include resolution injection" do
+    it "should call injected method" do
       str = """
       #%RAML 0.8
       !include test/assets/include.raml
@@ -18,7 +17,7 @@ defmodule RamlParser.IncludeResolutionTest do
       assert result == expected
     end
 
-    it 'should reject if detects circular reference on the first document' do
+    it "should reject if detects circular reference on the first document" do
       str = """
       #%RAML 0.8
       !include test/assets/circular-include.raml
@@ -28,7 +27,7 @@ defmodule RamlParser.IncludeResolutionTest do
       end)
     end
 
-    it 'should resolve !include tag as an array element' do
+    it "should resolve !include tag as an array element" do
       str = """
       #%RAML 0.8
       title: title
@@ -46,7 +45,7 @@ defmodule RamlParser.IncludeResolutionTest do
       assert result == expected
     end
 
-    it 'should resolve !include tags in proper order' do
+    it "should resolve !include tags in proper order" do
       str = """
       #%RAML 0.8
       title: title
@@ -65,7 +64,7 @@ defmodule RamlParser.IncludeResolutionTest do
       assert result == expected
     end
 
-    it 'should resolve mixed !include tags (in-place and deferred)' do
+    it "should resolve mixed !include tags (in-place and deferred)" do
       str = """
       #%RAML 0.8
       title: title
@@ -82,7 +81,7 @@ defmodule RamlParser.IncludeResolutionTest do
                    ]
                   }
       result = parse_string!(str)
-      assert result = expected
+      assert result == expected
     end
   end
 end
