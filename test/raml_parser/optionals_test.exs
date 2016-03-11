@@ -18,7 +18,6 @@ defmodule RamlParser.OptionalsTest do
     for {property, value} <- @properties do
       @tag property: property
       @tag value: value
-      @tag :capture_log
       it "should reject scalar optional parameters in a resource type: #{property}", context do
         property = context[:property]
         value = context[:value]

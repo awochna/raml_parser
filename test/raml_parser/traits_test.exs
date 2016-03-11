@@ -70,7 +70,7 @@ defmodule RamlParser.TraitsTest do
             trait: trait1
         get:
       """
-      expected = %%{"title" => "Test",
+      expected = %{"title" => "Test",
                     "baseUri" => "http://www.api.com",
                     "protocols" => ["HTTP"],
                     "resourceTypes" => [%{"base" => %{"is" => ["<<trait>>"],
@@ -85,7 +85,9 @@ defmodule RamlParser.TraitsTest do
                                                       "protocols" => ["HTTP"]
                                                      }]
                                      }]
-                   }
+                  }
+      {:ok, result} = parse_string(str)
+      assert result == expected
     end
 
     it "should not allow reserved parameters: methodName" do
@@ -143,7 +145,7 @@ defmodule RamlParser.TraitsTest do
       assert result
     end
 
-    it "should provide reserved <<resourcePathName>> parameter" do
+    it "should provide reserved <<resourcePathName>> parameter in URI with no variables" do
       str = """
       #%RAML 0.8
       ---
@@ -161,7 +163,7 @@ defmodule RamlParser.TraitsTest do
       assert description == "c"
     end
 
-    it "should provide reserved <<resourcePathName>> parameter" do
+    it "should provide reserved <<resourcePathName>> parameter in URI with variables" do
       str = """
       #%RAML 0.8
       ---
@@ -179,7 +181,7 @@ defmodule RamlParser.TraitsTest do
       assert description == "b"
     end
 
-    it "should provide reserved <<resourcePathName>> parameter" do
+    it "should provide reserved <<resourcePathName>> parameter in URI with all variables" do
       str = """
       #%RAML 0.8
       ---
