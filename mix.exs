@@ -11,12 +11,18 @@ defmodule RamlParser.Mixfile do
   end
 
   def application do
-    [applications: [:logger]]
+    [
+      applications: [
+        :logger,
+        :yamerl
+      ]
+    ]
   end
 
   defp deps do
     [
-      {:yamerl, github: "yaka'/yamerl'"}
+      {:yamerl, github: "yakaz/yamerl"},
+      {:ex_spec, "~> 1.0.0", only: :test}
     ]
   end
 end
