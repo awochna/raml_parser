@@ -16,6 +16,11 @@ defmodule RamlParser do
     actual schema.
     """
 
+  alias RamlParser.Validate
+  alias RamlParser.Transform
+  alias RamlParser.Schemas
+  alias RamlParser.Parser
+  
   @spec parse_string(String.t, Keyword.t) :: {:ok, Map.t} | {:error, Exception.t}
   @doc """
   Parse a string into an RAML map. On success, returns `{:ok, raml}`, on error
@@ -59,8 +64,23 @@ defmodule RamlParser do
     end
   end
 
-  defp parse(raml, opts) do
-    error = RamlParseError.exception("Not Implemented")
-    {:error, error}
+  def parse(yaml, opts) do
+    with {:ok, yaml} <- Validate.validate_versions(yaml, opts),
+    yaml = read_yaml(yaml),
+    {:ok, yaml} <- Parser.add_includes(yaml),
+    {:ok, yaml} <- Validate.validate_yaml(yaml, opts),
+    {:ok, yaml} <- Transform.transform_yaml(yaml, opts),
+    {:ok, yaml} <- Schemas.apply_schemas(yaml, opts) do
+      Parser.convert_yaml(yaml)
+    end
+  end
+
+  def read_yaml(yaml) do
+    try do
+      :yamerl_constr.string(yaml, node_mods: [RamlParser.YamerlIncludeNode],
+                            detailed_constr: true)
+    rescue
+      e -> {:error, e}
+    end
   end
 end
